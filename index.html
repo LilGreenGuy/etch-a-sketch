@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,24 @@
     <link rel="stylesheet" href="./style.css">
     <script defer src="./app.js"></script>
 </head>
+
 <body>
-    
+    <header class="header">
+        <div class="container">
+            <h1>Etch-a-Sketch!</h1>
+        </div>
+    </header>
+    <div class="container">
+        <label for="slider">Grid Density</label>
+        <input id="slider" name="density" type="range" min="16" max="512" step="16" value="16" onchange="adjustGridSize()">Size</input>
+        <output id="output"></output>
+        <input type="color" name="color" id="color">
+        <div class="sketchContainer"></div>
+    </div>
+
+    <footer class="footer">
+
+    </footer>
 </body>
+
 </html>

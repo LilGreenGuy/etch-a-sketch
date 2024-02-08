@@ -7,19 +7,22 @@
     <title>Etch-a-Sketch!</title>
     <link rel="stylesheet" href="./style.css">
     <script defer src="./app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header class="header">
-        <div class="container">
             <h1>Etch-a-Sketch!</h1>
-        </div>
     </header>
     <div class="container">
-        <label for="slider">Grid Density</label>
-        <input id="slider" name="density" type="range" min="16" max="512" step="16" value="16" onchange="adjustGridSize()">Size</input>
-        <output id="output"></output>
-        <input type="color" name="color" id="color">
+        <section class="inputContainer">
+        <label for="slider"><h2>Grid Density</h2></label>
+        <input id="slider" name="density" type="range" min="16" max="512" step="16" value="16"></input>
+        <p>Grid Size: <output id="rangeOutput"></output></p>
+        <input id="color" type="color" name="color">
+    </section>
         <div class="sketchContainer"></div>
     </div>
 

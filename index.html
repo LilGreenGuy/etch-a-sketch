@@ -8,21 +8,23 @@
     <link rel="stylesheet" href="./style.css">
     <script defer src="./app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header class="header">
-            <h1>Etch-a-Sketch!</h1>
+        <h1>Etch-a-Sketch!</h1>
     </header>
     <div class="container">
         <section class="inputContainer">
-        <label for="slider"><h2>Grid Density</h2></label>
-        <input id="slider" name="density" type="range" min="16" max="512" step="16" value="16"></input>
-        <p>Grid Size: <output id="rangeOutput"></output></p>
-        <input id="color" type="color" name="color">
-    </section>
+            <label for="slider">
+                <h2>Grid Density</h2>
+            </label>
+            <input id="slider" name="density" type="range" min="36" max="512" step="36" value="36"></input>
+            <p>Grid Size: <output id="rangeOutput"></output></p>
+            <input id="color" type="color" name="color">
+        </section>
         <div class="sketchContainer"></div>
     </div>
 

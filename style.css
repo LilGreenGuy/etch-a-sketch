@@ -6,9 +6,9 @@ body {
 }
 
 .header {
-  border-bottom: 1px solid black;
-  margin: 1rem 2rem;  
-  padding: .5rem;
+    border-bottom: 1px solid black;
+    margin: 1rem 2rem;
+    padding: .5rem;
 }
 
 .container {
@@ -17,6 +17,7 @@ body {
     max-width: 100rem;
     margin: 2rem;
     gap: .5rem;
+    height: 100vh;
 }
 
 .inputContainer {
@@ -35,13 +36,9 @@ body {
 }
 
 .sketchContainer {
-    display: flex;
-    justify-content: center;
-    align-content: stretch;
-    align-items: stretch;
-    flex-wrap: wrap;
-    width: 50rem;
-    height: 50rem;
+    display: grid;
+    width: 500px;
+    height: 500px;
     border: 1px solid red;
     gap: 0;
     margin-left: 5rem;
@@ -53,7 +50,7 @@ body {
 
 .grid {
     display: flex;
-    flex: 1 1 10rem;
+    flex: 1 1 8rem;
     width: auto;
     height: auto;
     border: 1px solid blue;
@@ -64,21 +61,26 @@ body {
         justify-content: center;
         flex-direction: row;
     }
+
     .sketchContainer {
         margin-left: 0;
     }
+
     #slider {
         margin-left: 2rem;
         margin-right: 2rem;
     }
+
     .inputContainer p {
         display: flex;
         align-items: center;
     }
+
     #color {
         margin: auto 1rem;
     }
 }
+
 /* 
 @media (max-width: 900px) {
     .sketchContainer {

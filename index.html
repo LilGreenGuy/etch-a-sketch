@@ -18,12 +18,15 @@
     </header>
     <div class="container">
         <section class="inputContainer">
-            <label for="slider">
-                <h2>Grid Density</h2>
-            </label>
-            <input id="slider" name="density" type="range" min="36" max="512" step="36" value="36"></input>
-            <p>Grid Size: <output id="rangeOutput"></output></p>
-            <input id="color" type="color" name="color">
+            <button class="button fill">Fill</button>
+            <button class="button rainbow">Unicorn Vomit</button>
+            <button class="button erase">Toggle Eraser</button>
+            <button class="button clear">Clear Grid</button>
+            <button class="button" id="gridLines">Grid Lines</button>
+            <div class="sliderContainer">
+            <input id="slider" type="range" min="1" max="84" value="16"></input>
+        </div>
+            <div id="rangeOutput">16 x 16</div>
         </section>
         <div class="sketchContainer"></div>
     </div>

@@ -7,14 +7,16 @@ body {
 
 .header {
     border-bottom: 1px solid black;
-    margin: 1rem 2rem;
+    margin: 0rem 2rem;
     padding: .5rem;
+    text-align: center;
+    font-size: 2rem;
 }
 
 .container {
     display: flex;
     flex-wrap: wrap;
-    max-width: 100rem;
+    justify-content: center;
     margin: 2rem;
     gap: .5rem;
     height: 100vh;
@@ -26,26 +28,39 @@ body {
     flex-direction: column;
 }
 
-.inputContainer label {
-    border-bottom: 1px solid grey;
-    margin-bottom: 1rem;
-}
-
-.inputContainer label h2 {
-    margin-left: 0.5rem;
-}
-
 .sketchContainer {
     display: grid;
     width: 500px;
     height: 500px;
-    border: 1px solid red;
     gap: 0;
     margin-left: 5rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.hover {
-    background: black;
+#rangeOutput {
+    text-align: center;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid grey;
+    width: 100%;
+    transition: all ease-in-out .2s;
+}
+
+.button,
+#slider {
+    cursor: pointer;
+}
+
+#slider,
+.sliderContainer {
+    width: 100%;
+    display: flex;
 }
 
 .grid {
@@ -53,17 +68,23 @@ body {
     flex: 1 1 8rem;
     width: auto;
     height: auto;
-    border: 1px solid blue;
 }
 
 @media (max-width: 1100px) {
+    .container {
+        flex-direction: column-reverse;
+        height: auto;
+        align-content: center;
+    }
+
     .inputContainer {
         justify-content: center;
         flex-direction: row;
+        max-width: 500px;
     }
 
     .sketchContainer {
-        margin-left: 0;
+        margin: 1rem auto 2rem auto;
     }
 
     #slider {
@@ -76,9 +97,46 @@ body {
         align-items: center;
     }
 
-    #color {
-        margin: auto 1rem;
+    .button {
+        width: 200px;
+        height: 100px;
     }
+
+    .button:nth-of-type(2n+1) {
+        margin-right: 50px;
+    }
+
+    .button:nth-of-type(2n) {
+        margin-left: 50px;
+    }
+
+    #gridLines {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .sketchContainer {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+.button:hover,
+.button-active {
+    background: #424242;
+    color: azure;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button:active {
+    background: none;
+    color: #424242;
+    scale: 1.05;
+}
+
+.linesOn {
+    border: 1px solid black;
 }
 
 /* 

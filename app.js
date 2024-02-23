@@ -1,59 +1,80 @@
-// create a square grid using flexbox in container div 
-function grid() {
-  const INITIAL_SIZE = 16;
+const BASESIZE = 16;
+const BASECOLOR = '#333333';
+const BASEMODE = 'color';
 
-  const rangeValue = document.querySelector('#rangeOutput');
-  const input = document.querySelector('#slider');
-  const gridContainer = document.querySelector('.sketchContainer');
+let currentSize = BASESIZE;
+let currentMode = BASEMODE;
 
-  rangeValue.textContent = input.value;
-  input.addEventListener('input', (event) => {
-    rangeValue.textContent = event.target.value;
-  });
-  let gridInput = rangeValue.value;
-
-  let drag = false;
-  let gridBox = document.querySelector('.grid');
-  gridContainer.addEventListener(
-    'mousedown', () => drag = false);
-
-  gridContainer.addEventListener(
-    'mousemove', () => drag = true);
-
-  gridContainer.addEventListener(
-    'mouseup', () => console.log(
-      drag ? 'drag' : 'click'));
-
-  if (drag == true) {
-    gridBox.setAttribute('style', 'background-color: blue');
-  }
-
-
-  function makeGrid(size) {
-    gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`
-    gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`
-
-
-    for (let i = 0; i < size * size; i++) {
-      let gridItem = document.createElement('div');
-      gridItem.classList.add('grid');
-      gridContainer.appendChild(gridItem);
-    }
-  }
-
-  function sliderValue() {
-    return gridInput;
-  }
-
-
-  //      create a function that takes in a number via input from DOM
-  makeGrid(INITIAL_SIZE);
-  gridEventListener();
+function changeCurrentSize(newSize) {
+  currentSize = newSize;
 }
-grid()
-//      to determine density of grid
-//      create an event handler that will color selected grid in with input color
-//      make the event handler capable of clicking and holding so you can 'draw' across
 
-//      the screen
-//      make the filled color chooseable via an input
+function changeCurrentMode(newMode) {
+
+}
+
+
+const sizeValue = document.getElementById('rangeOutput');
+const sizeSlider = document.getElementById('slider');
+const gridContainer = document.querySelector('.sketchContainer');
+const fillBtn = document.querySelector('.fill');
+const rainbowBtn = document.querySelector('.rainbow');
+const eraserBtn = document.querySelector('.erase');
+const clearBtn = document.querySelector('.clear');
+const gridBtn = document.querySelector('#gridLines');
+
+fillBtn.onclick = () => changeCurrentMode();
+clearBtn.onclick = () => remakeGrid();
+gridBtn.onclick = () => toggleGridLines(currentSize);
+sizeSlider.onmousemove = (e) => updateSizeDisplay(e.target.value)
+sizeSlider.onchange = (e) => changeSize(e.target.value);
+
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
+
+function makeGrid(size) {
+  gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+
+  for (let i = 0; i < size * size; i++) {
+    gridItem = document.createElement('div');
+    gridItem.classList.add('grid');
+    gridItem.addEventListener('mouseover', changeColor);
+    gridItem.addEventListener('mousedown', changeColor);
+    gridContainer.appendChild(gridItem);
+  }
+}
+
+function remakeGrid() {
+  clearGrid();
+  makeGrid(currentSize);
+}
+
+function changeSize(value) {
+  changeCurrentSize(value);
+  updateSizeDisplay(value);
+  remakeGrid();
+}
+
+function updateSizeDisplay(value) {
+  sizeValue.innerHTML = `${value} x ${value}`;
+}
+
+function clearGrid() {
+  gridContainer.innerHTML = '';
+}
+
+
+function toggleGridLines(size) {
+  for (let i = 0; i < size; i++)
+    gridItem.classList.add('linesOn');
+}
+
+function changeColor(e) {
+  if (e.type === 'mouseover' && !mouseDown) return;
+  e.target.style.backgroundColor = BASECOLOR;
+}
+
+makeGrid(BASESIZE);

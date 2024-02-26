@@ -1,6 +1,9 @@
 const BASESIZE = 16;
 const BASECOLOR = '#333333';
-const BASEMODE = 'color';
+const BASEMODE = 'fill';
+
+
+let gridMode = 0;
 
 let currentSize = BASESIZE;
 let currentMode = BASEMODE;
@@ -10,7 +13,8 @@ function changeCurrentSize(newSize) {
 }
 
 function changeCurrentMode(newMode) {
-
+  swapModes(newMode);
+  currentMode = newMode;
 }
 
 
@@ -23,9 +27,11 @@ const eraserBtn = document.querySelector('.erase');
 const clearBtn = document.querySelector('.clear');
 const gridBtn = document.querySelector('#gridLines');
 
-fillBtn.onclick = () => changeCurrentMode();
+fillBtn.onclick = () => changeCurrentMode('fill');
+rainbowBtn.onclick = () => changeCurrentMode('rainbow');
+eraserBtn.onclick = () => changeCurrentMode('eraser');
 clearBtn.onclick = () => remakeGrid();
-gridBtn.onclick = () => toggleGridLines(currentSize);
+gridBtn.onclick = () => toggleGridLines(gridMode);
 sizeSlider.onmousemove = (e) => updateSizeDisplay(e.target.value)
 sizeSlider.onchange = (e) => changeSize(e.target.value);
 
@@ -67,14 +73,57 @@ function clearGrid() {
 }
 
 
-function toggleGridLines(size) {
-  for (let i = 0; i < size; i++)
+function toggleGridLines(gridMode) {
+
+  if (gridMode === 1) {
+    gridItem.classList.remove('linesOn');
+    gridBtn.classList.remove('button-active');
+    gridMode = 0;
+  }
+  if (gridMode === 0) {
     gridItem.classList.add('linesOn');
+    gridBtn.classList.add('button-active');
+    gridMode = 1;
+  }
 }
 
 function changeColor(e) {
   if (e.type === 'mouseover' && !mouseDown) return;
-  e.target.style.backgroundColor = BASECOLOR;
+  if (currentMode === 'fill') {
+    e.target.style.backgroundColor = BASECOLOR;
+  }
+  else if (currentMode === 'rainbow') {
+    const randomR = Math.floor(Math.random() * 256)
+    const randomG = Math.floor(Math.random() * 256)
+    const randomB = Math.floor(Math.random() * 256)
+    e.target.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
+  }
+  else if (currentMode === 'eraser') {
+    e.target.style.backgroundColor = '#fefefe'
+  }
 }
 
+function swapModes(newMode) {
+  if (currentMode === 'fill') {
+    fillBtn.classList.remove('button-active');
+  }
+  else if (currentMode === 'rainbow') {
+    rainbowBtn.classList.remove('button-active');
+  }
+  else if (currentMode === 'eraser') {
+    eraserBtn.classList.remove('button-active');
+  }
+
+  if (newMode === 'fill') {
+    fillBtn.classList.add('button-active')
+  }
+  else if (newMode === 'rainbow') {
+    rainbowBtn.classList.add('button-active')
+  }
+  else if (newMode === 'eraser') {
+    eraserBtn.classList.add('button-active')
+  }
+}
+
+swapModes(BASEMODE);
 makeGrid(BASESIZE);

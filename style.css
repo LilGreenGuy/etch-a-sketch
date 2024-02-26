@@ -7,25 +7,25 @@ body {
 
 .header {
     border-bottom: 1px solid black;
-    margin: 0rem 2rem;
     padding: .5rem;
     text-align: center;
     font-size: 2rem;
+    margin-bottom: 50px;
 }
 
 .container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 2rem;
-    gap: .5rem;
-    height: 100vh;
+    justify-content: flex-start;
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 4rem;
 }
 
 .inputContainer {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    width: 180px;
 }
 
 .sketchContainer {
@@ -33,7 +33,6 @@ body {
     width: 500px;
     height: 500px;
     gap: 0;
-    margin-left: 5rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -70,17 +69,37 @@ body {
     height: auto;
 }
 
+.button:hover,
+.button-active {
+    background: #424242;
+    color: azure;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button:active {
+    background: none;
+    color: #424242;
+    scale: 1.05;
+}
+
+.linesOn {
+    border: 1px solid black;
+}
+
 @media (max-width: 1100px) {
     .container {
         flex-direction: column-reverse;
         height: auto;
         align-content: center;
+        align-items: center;
+        gap: 2rem;
     }
 
     .inputContainer {
         justify-content: center;
         flex-direction: row;
-        max-width: 500px;
+        width: 80%;
+        gap: 20px;
     }
 
     .sketchContainer {
@@ -100,48 +119,19 @@ body {
     .button {
         width: 200px;
         height: 100px;
-    }
-
-    .button:nth-of-type(2n+1) {
-        margin-right: 50px;
-    }
-
-    .button:nth-of-type(2n) {
-        margin-left: 50px;
-    }
-
-    #gridLines {
-        margin-right: 0;
+        margin-bottom: 0;
     }
 }
 
 @media (max-width: 500px) {
+    .button {
+        width: 150px;
+        height: 75px;
+    }
+
     .sketchContainer {
         width: 300px;
         height: 300px;
+        margin: 0;
     }
 }
-
-.button:hover,
-.button-active {
-    background: #424242;
-    color: azure;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.button:active {
-    background: none;
-    color: #424242;
-    scale: 1.05;
-}
-
-.linesOn {
-    border: 1px solid black;
-}
-
-/* 
-@media (max-width: 900px) {
-    .sketchContainer {
-
-    }
-} */

@@ -1,3 +1,7 @@
+html {
+    overflow-x: hidden;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -125,13 +129,28 @@ body {
 
 @media (max-width: 500px) {
     .button {
-        width: 150px;
-        height: 75px;
+        width: 8rem;
+        height: 4em;
+        font-size: 1em;
     }
 
     .sketchContainer {
         width: 300px;
         height: 300px;
         margin: 0;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .header {
+        padding: 0;
+    }
+}
+
+@media (max-height: 750px) {
+    h1 {
+        display: none;
     }
 }

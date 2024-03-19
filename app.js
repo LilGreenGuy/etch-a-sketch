@@ -1,12 +1,7 @@
-const BASESIZE = 16;
-const BASECOLOR = '#333333';
-const BASEMODE = 'fill';
-
-
+let currentColor = '#333333';
 let gridMode = 0;
-
-let currentSize = BASESIZE;
-let currentMode = BASEMODE;
+let currentSize = 16;
+let currentMode = 'fill';
 
 function changeCurrentSize(newSize) {
   currentSize = newSize;
@@ -90,7 +85,7 @@ function toggleGridLines(gridMode) {
 function changeColor(e) {
   if (e.type === 'mouseover' && !mouseDown) return;
   if (currentMode === 'fill') {
-    e.target.style.backgroundColor = BASECOLOR;
+    e.target.style.backgroundColor = currentColor;
   }
   else if (currentMode === 'rainbow') {
     const randomR = Math.floor(Math.random() * 256)
@@ -125,5 +120,5 @@ function swapModes(newMode) {
   }
 }
 
-swapModes(BASEMODE);
-makeGrid(BASESIZE);
+swapModes(currentMode);
+makeGrid(currentSize);

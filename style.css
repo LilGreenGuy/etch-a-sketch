@@ -1,9 +1,6 @@
 html {
     overflow-x: hidden;
     overflow-y: hidden;
-}
-
-body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -83,6 +80,7 @@ body {
     flex: 1 1 8rem;
     width: auto;
     height: auto;
+    transition: all 0.2s;
 }
 
 .button:hover,
@@ -141,8 +139,8 @@ body {
 
 @media (max-width: 500px) {
     .button {
-        width: 8rem;
-        height: 4em;
+        width: 7rem;
+        height: 3em;
         font-size: 1em;
         font-size: small;
         margin: 0 10px;
@@ -181,6 +179,16 @@ body {
     }
 
     .button {
-        height: 3rem;
+        height: 2.5rem;
+    }
+}
+
+@media (min-width: 900px) {
+    html {
+        overflow-y: auto;
+    }
+    .sketchContainer {
+        width: 800px;
+        height: 800px;
     }
 }

@@ -1,18 +1,3 @@
-let currentColor = '#333333';
-let gridMode = 0;
-let currentSize = 16;
-let currentMode = 'fill';
-
-function changeCurrentSize(newSize) {
-  currentSize = newSize;
-}
-
-function changeCurrentMode(newMode) {
-  swapModes(newMode);
-  currentMode = newMode;
-}
-
-
 const sizeValue = document.getElementById('rangeOutput');
 const sizeSlider = document.getElementById('slider');
 const gridContainer = document.querySelector('.sketchContainer');
@@ -20,15 +5,22 @@ const fillBtn = document.querySelector('.fill');
 const rainbowBtn = document.querySelector('.rainbow');
 const eraserBtn = document.querySelector('.erase');
 const clearBtn = document.querySelector('.clear');
-const gridBtn = document.querySelector('#gridLines');
+const gridBtn = document.getElementById('gridLines');
+const colorPicker = document.getElementById('colorPicker')
 
-fillBtn.onclick = () => changeCurrentMode('fill');
-rainbowBtn.onclick = () => changeCurrentMode('rainbow');
-eraserBtn.onclick = () => changeCurrentMode('eraser');
-clearBtn.onclick = () => remakeGrid();
+let currentColor = '#333333';
+let gridMode = false;
+let currentSize = 16;
+let currentMode = 'fill';
+
+fillBtn.onclick = () => swapModes('fill');
+rainbowBtn.onclick = () => swapModes('rainbow');
+eraserBtn.onclick = () => swapModes('eraser');
+clearBtn.onclick = () => clearGrid();
 gridBtn.onclick = () => toggleGridLines(gridMode);
 sizeSlider.onmousemove = (e) => updateSizeDisplay(e.target.value)
 sizeSlider.onchange = (e) => changeSize(e.target.value);
+colorPicker.oninput = (e) => newColor(e.target.value)
 
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
@@ -40,23 +32,23 @@ function makeGrid(size) {
 
 
   for (let i = 0; i < size * size; i++) {
-    gridItem = document.createElement('div');
-    gridItem.classList.add('grid');
-    gridItem.addEventListener('mouseover', changeColor);
-    gridItem.addEventListener('mousedown', changeColor);
-    gridContainer.appendChild(gridItem);
+    gridBox = document.createElement('div');
+    gridBox.classList.add('grid');
+    gridBox.addEventListener('mouseover', changeColor);
+    gridBox.addEventListener('mousedown', changeColor);
+    gridContainer.appendChild(gridBox);
   }
 }
 
-function remakeGrid() {
-  clearGrid();
-  makeGrid(currentSize);
+function newColor(value) {
+  currentColor = value
 }
 
 function changeSize(value) {
-  changeCurrentSize(value);
+  currentSize = value
   updateSizeDisplay(value);
-  remakeGrid();
+  clearGrid();
+  makeGrid(value);
 }
 
 function updateSizeDisplay(value) {
@@ -65,20 +57,21 @@ function updateSizeDisplay(value) {
 
 function clearGrid() {
   gridContainer.innerHTML = '';
+  let currentGrid = parseInt(sizeValue.innerHTML)
+  makeGrid(currentGrid);
 }
 
 
 function toggleGridLines(gridMode) {
 
-  if (gridMode === 1) {
-    gridItem.classList.remove('linesOn');
+  if (gridMode === true) {
+    gridBox.classList.remove('linesOn');
     gridBtn.classList.remove('button-active');
-    gridMode = 0;
-  }
-  if (gridMode === 0) {
-    gridItem.classList.add('linesOn');
+    gridMode = false;
+  } else if (gridMode === false) {
+    gridBox.classList.add('linesOn');
     gridBtn.classList.add('button-active');
-    gridMode = 1;
+    gridMode = true;
   }
 }
 
@@ -88,10 +81,8 @@ function changeColor(e) {
     e.target.style.backgroundColor = currentColor;
   }
   else if (currentMode === 'rainbow') {
-    const randomR = Math.floor(Math.random() * 256)
-    const randomG = Math.floor(Math.random() * 256)
-    const randomB = Math.floor(Math.random() * 256)
-    e.target.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
+    function randomColor() { return Math.floor(Math.random() * 256) }
+    e.target.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`
   }
   else if (currentMode === 'eraser') {
     e.target.style.backgroundColor = '#fefefe'
@@ -99,23 +90,22 @@ function changeColor(e) {
 }
 
 function swapModes(newMode) {
+
   if (currentMode === 'fill') {
     fillBtn.classList.remove('button-active');
-  }
-  else if (currentMode === 'rainbow') {
+  } else if (currentMode === 'rainbow') {
     rainbowBtn.classList.remove('button-active');
-  }
-  else if (currentMode === 'eraser') {
+  } else if (currentMode === 'eraser') {
     eraserBtn.classList.remove('button-active');
   }
 
+  currentMode = newMode;
+
   if (newMode === 'fill') {
     fillBtn.classList.add('button-active')
-  }
-  else if (newMode === 'rainbow') {
+  } else if (newMode === 'rainbow') {
     rainbowBtn.classList.add('button-active')
-  }
-  else if (newMode === 'eraser') {
+  } else if (newMode === 'eraser') {
     eraserBtn.classList.add('button-active')
   }
 }

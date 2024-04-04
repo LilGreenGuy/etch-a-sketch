@@ -21,7 +21,7 @@ incShadeBtn.onclick = () => swapModes('incShade');
 decShadeBtn.onclick = () => swapModes('decShade');
 eraserBtn.onclick = () => swapModes('eraser');
 clearBtn.onclick = () => clearGrid();
-gridBtn.onclick = () => toggleGridLines(gridMode);
+gridBtn.onclick = () => toggleGridLines();
 sizeSlider.onmousemove = (e) => updateSizeDisplay(e.target.value)
 sizeSlider.onchange = (e) => changeSize(e.target.value);
 colorPicker.oninput = (e) => newColor(e.target.value)
@@ -51,7 +51,6 @@ function newColor(newColor) {
 
 function changeSize(newSize) {
   gridSize = newSize
-  gridMode = false;
   updateSizeDisplay(newSize);
   clearGrid();
   makeGrid(newSize);
@@ -68,7 +67,7 @@ function clearGrid() {
 }
 
 
-function toggleGridLines(gridMode) {
+function toggleGridLines() {
   let gridBoxes = document.querySelectorAll('div.grid');
 
 

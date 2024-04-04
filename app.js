@@ -7,14 +7,18 @@ const eraserBtn = document.querySelector('.erase');
 const clearBtn = document.querySelector('.clear');
 const gridBtn = document.getElementById('gridLines');
 const colorPicker = document.getElementById('colorPicker')
+const incShadeBtn = document.querySelector('.incShade');
+const decShadeBtn = document.querySelector('.decShade');
 
 let currentColor = '#333333';
 let gridMode = false;
-let currentSize = 16;
+let gridSize = 16;
 let currentMode = 'fill';
 
 fillBtn.onclick = () => swapModes('fill');
 rainbowBtn.onclick = () => swapModes('rainbow');
+incShadeBtn.onclick = () => swapModes('incShade');
+decShadeBtn.onclick = () => swapModes('decShade');
 eraserBtn.onclick = () => swapModes('eraser');
 clearBtn.onclick = () => clearGrid();
 gridBtn.onclick = () => toggleGridLines(gridMode);
@@ -37,22 +41,23 @@ function makeGrid(size) {
     gridBox.addEventListener('mouseover', changeColor);
     gridBox.addEventListener('mousedown', changeColor);
     gridContainer.appendChild(gridBox);
+    gridBox.style.opacity = .1;
   }
 }
 
-function newColor(value) {
-  currentColor = value
+function newColor(newColor) {
+  currentColor = newColor
 }
 
-function changeSize(value) {
-  currentSize = value
-  updateSizeDisplay(value);
+function changeSize(newSize) {
+  gridSize = newSize
+  updateSizeDisplay(newSize);
   clearGrid();
-  makeGrid(value);
+  makeGrid(newSize);
 }
 
-function updateSizeDisplay(value) {
-  sizeValue.innerHTML = `${value} x ${value}`;
+function updateSizeDisplay(gridSize) {
+  sizeValue.innerHTML = `${gridSize} x ${gridSize}`;
 }
 
 function clearGrid() {
@@ -79,12 +84,15 @@ function changeColor(e) {
   if (e.type === 'mouseover' && !mouseDown) return;
   if (currentMode === 'fill') {
     e.target.style.backgroundColor = currentColor;
-  }
-  else if (currentMode === 'rainbow') {
-    function randomColor() { return Math.floor(Math.random() * 256) }
+    e.target.style.opacity = 1;
+  } else if (currentMode === 'rainbow') {
+    const randomColor = () => Math.floor(Math.random() * 256)
     e.target.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`
-  }
-  else if (currentMode === 'eraser') {
+  } else if (currentMode === 'incShade') {
+    e.target.style.opacity = parseFloat(e.target.style.opacity) + 0.1;
+  } else if (currentMode === 'decShade') {
+    e.target.style.opacity -= 0.1;
+  } else if (currentMode === 'eraser') {
     e.target.style.backgroundColor = '#fefefe'
   }
 }
@@ -95,6 +103,10 @@ function swapModes(newMode) {
     fillBtn.classList.remove('button-active');
   } else if (currentMode === 'rainbow') {
     rainbowBtn.classList.remove('button-active');
+  } else if (currentMode === 'incShade') {
+    incShadeBtn.classList.remove('button-active');
+  } else if (currentMode === 'decShade') {
+    decShadeBtn.classList.remove('button-active');
   } else if (currentMode === 'eraser') {
     eraserBtn.classList.remove('button-active');
   }
@@ -105,10 +117,14 @@ function swapModes(newMode) {
     fillBtn.classList.add('button-active')
   } else if (newMode === 'rainbow') {
     rainbowBtn.classList.add('button-active')
+  } else if (newMode === 'incShade') {
+    incShadeBtn.classList.add('button-active')
+  } else if (newMode === 'decShade') {
+    decShadeBtn.classList.add('button-active')
   } else if (newMode === 'eraser') {
     eraserBtn.classList.add('button-active')
   }
 }
 
 swapModes(currentMode);
-makeGrid(currentSize);
+makeGrid(gridSize);

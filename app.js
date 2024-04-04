@@ -36,7 +36,7 @@ function makeGrid(size) {
 
 
   for (let i = 0; i < size * size; i++) {
-    gridBox = document.createElement('div');
+    let gridBox = document.createElement('div');
     gridBox.classList.add('grid');
     gridBox.addEventListener('mouseover', changeColor);
     gridBox.addEventListener('mousedown', changeColor);
@@ -51,6 +51,7 @@ function newColor(newColor) {
 
 function changeSize(newSize) {
   gridSize = newSize
+  gridMode = false;
   updateSizeDisplay(newSize);
   clearGrid();
   makeGrid(newSize);
@@ -68,13 +69,20 @@ function clearGrid() {
 
 
 function toggleGridLines(gridMode) {
+  let gridBoxes = document.querySelectorAll('div.grid');
+
 
   if (gridMode === true) {
-    gridBox.classList.remove('linesOn');
+    gridBoxes.forEach((div) => {
+      div.classList.remove('linesOn');
+    })
     gridBtn.classList.remove('button-active');
     gridMode = false;
   } else if (gridMode === false) {
-    gridBox.classList.add('linesOn');
+
+    gridBoxes.forEach((div) => {
+      div.classList.add('linesOn');
+    })
     gridBtn.classList.add('button-active');
     gridMode = true;
   }
@@ -88,6 +96,7 @@ function changeColor(e) {
   } else if (currentMode === 'rainbow') {
     const randomColor = () => Math.floor(Math.random() * 256)
     e.target.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`
+    e.target.style.opacity = 1;
   } else if (currentMode === 'incShade') {
     e.target.style.opacity = parseFloat(e.target.style.opacity) + 0.1;
   } else if (currentMode === 'decShade') {

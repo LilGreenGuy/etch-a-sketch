@@ -31,6 +31,7 @@ html {
 }
 
 .sketchContainer {
+    background: #dfdfdf00;
     display: grid;
     width: 500px;
     height: 500px;

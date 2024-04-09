@@ -70,7 +70,6 @@ function clearGrid() {
 function toggleGridLines() {
   let gridBoxes = document.querySelectorAll('div.grid');
 
-
   if (gridMode === true) {
     gridBoxes.forEach((div) => {
       div.classList.remove('linesOn');
@@ -97,9 +96,13 @@ function changeColor(e) {
     e.target.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`
     e.target.style.opacity = 1;
   } else if (currentMode === 'incShade') {
-    e.target.style.opacity = parseFloat(e.target.style.opacity) + 0.1;
+    if (e.target.style.opacity < 1) {
+      e.target.style.opacity = parseFloat(e.target.style.opacity) + 0.1;
+    }
   } else if (currentMode === 'decShade') {
-    e.target.style.opacity -= 0.1;
+    if (e.target.style.opacity > 0) {
+      e.target.style.opacity -= 0.1;
+    }
   } else if (currentMode === 'eraser') {
     e.target.style.backgroundColor = '#fefefe'
   }

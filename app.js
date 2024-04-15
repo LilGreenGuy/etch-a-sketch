@@ -20,7 +20,11 @@ rainbowBtn.onclick = () => swapModes('rainbow');
 incShadeBtn.onclick = () => swapModes('incShade');
 decShadeBtn.onclick = () => swapModes('decShade');
 eraserBtn.onclick = () => swapModes('eraser');
-clearBtn.onclick = () => clearGrid();
+clearBtn.onclick = () => function reset() {
+  clearGrid()
+  let currentGrid = parseInt(sizeValue.innerHTML)
+  makeGrid(currentGrid);
+};
 gridBtn.onclick = () => toggleGridLines();
 sizeSlider.onmousemove = (e) => updateSizeDisplay(e.target.value)
 sizeSlider.onchange = (e) => changeSize(e.target.value);
@@ -35,7 +39,7 @@ function makeGrid(size) {
   gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
 
-  for (let i = 0; i < size * size; i++) {
+  for (let i = 0; i < size * size; i++){
     let gridBox = document.createElement('div');
     gridBox.classList.add('grid');
     gridBox.addEventListener('mouseover', changeColor);
@@ -53,7 +57,7 @@ function changeSize(newSize) {
   gridSize = newSize
   updateSizeDisplay(newSize);
   clearGrid();
-  makeGrid(newSize);
+  makeGrid(gridSize);
 }
 
 function updateSizeDisplay(gridSize) {
@@ -62,10 +66,7 @@ function updateSizeDisplay(gridSize) {
 
 function clearGrid() {
   gridContainer.innerHTML = '';
-  let currentGrid = parseInt(sizeValue.innerHTML)
-  makeGrid(currentGrid);
 }
-
 
 function toggleGridLines() {
   let gridBoxes = document.querySelectorAll('div.grid');

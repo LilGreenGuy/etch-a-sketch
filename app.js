@@ -5,7 +5,7 @@ const fillBtn = document.querySelector('.fill');
 const rainbowBtn = document.querySelector('.rainbow');
 const eraserBtn = document.querySelector('.erase');
 const clearBtn = document.querySelector('.clear');
-const gridBtn = document.getElementById('gridLines');
+// const gridBtn = document.getElementById('gridLines');
 const colorPicker = document.getElementById('colorPicker')
 const incShadeBtn = document.querySelector('.incShade');
 const decShadeBtn = document.querySelector('.decShade');
@@ -20,12 +20,8 @@ rainbowBtn.onclick = () => swapModes('rainbow');
 incShadeBtn.onclick = () => swapModes('incShade');
 decShadeBtn.onclick = () => swapModes('decShade');
 eraserBtn.onclick = () => swapModes('eraser');
-clearBtn.onclick = () => function reset() {
-  clearGrid()
-  let currentGrid = parseInt(sizeValue.innerHTML)
-  makeGrid(currentGrid);
-};
-gridBtn.onclick = () => toggleGridLines();
+clearBtn.onclick = () => resetGrid();
+// gridBtn.onclick = () => toggleGridLines();
 sizeSlider.onmousemove = (e) => updateSizeDisplay(e.target.value)
 sizeSlider.onchange = (e) => changeSize(e.target.value);
 colorPicker.oninput = (e) => newColor(e.target.value)
@@ -39,15 +35,20 @@ function makeGrid(size) {
   gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
 
-  for (let i = 0; i < size * size; i++){
+  for (let i = 0; i < size * size; i++) {
     let gridBox = document.createElement('div');
     gridBox.classList.add('grid');
     gridBox.addEventListener('mouseover', changeColor);
     gridBox.addEventListener('mousedown', changeColor);
     gridContainer.appendChild(gridBox);
-    gridBox.style.opacity = .1;
+    gridBox.style.opacity = 0.0;
   }
 }
+
+function resetGrid() {
+  clearGrid()
+  makeGrid(gridSize);
+};
 
 function newColor(newColor) {
   currentColor = newColor
@@ -105,7 +106,8 @@ function changeColor(e) {
       e.target.style.opacity -= 0.1;
     }
   } else if (currentMode === 'eraser') {
-    e.target.style.backgroundColor = '#fefefe'
+    e.target.style.backgroundColor = 'rgba(0, 0, 0, 1)'
+    e.target.style.opacity = 0.0
   }
 }
 

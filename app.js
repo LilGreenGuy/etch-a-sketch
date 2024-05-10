@@ -21,21 +21,21 @@ const current = {
 }
 
 const eventListeners = [
-inputs.fillBtn.addEventListener('click', () => {
-  swapModes('fill');
-}),
-inputs.rainbowBtn.addEventListener('click', () => {
-  swapModes('rainbow');
-}),
-inputs.incShadeBtn.addEventListener('click', () => {
-  swapModes('incShade');
-}),
-inputs.decShadeBtn.addEventListener('click', () => {
-  swapModes('decShade');
-}),
-inputs.eraserBtn.addEventListener('click', () => {
-  swapModes('eraser');
-}),
+  inputs.fillBtn.addEventListener('click', () => {
+    swapModes('fill');
+  }),
+  inputs.rainbowBtn.addEventListener('click', () => {
+    swapModes('rainbow');
+  }),
+  inputs.incShadeBtn.addEventListener('click', () => {
+    swapModes('incShade');
+  }),
+  inputs.decShadeBtn.addEventListener('click', () => {
+    swapModes('decShade');
+  }),
+  inputs.eraserBtn.addEventListener('click', () => {
+    swapModes('eraser');
+  }),
   inputs.clearBtn.addEventListener('click', resetGrid),
   inputs.sizeSlider.addEventListener('click', (e) => {
     updateSizeDisplay(e.target.value);

@@ -92,7 +92,7 @@ function clearGrid() {
 }
 
 function changeColor(e) {
-  // if (e.type === 'mouseover' && !mouseDown) return;
+  if (e.type === 'mouseover' && !mouseDown) return;
   if (current.mode === 'fill') {
     e.target.style.backgroundColor = current.color;
     e.target.style.opacity = 1;

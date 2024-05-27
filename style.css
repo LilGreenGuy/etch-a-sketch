@@ -61,6 +61,10 @@ html {
     border-radius: 5px;
 }
 
+#colorDisplay {
+    font-size: 2rem;
+}
+
 .button,
 #slider {
     cursor: pointer;

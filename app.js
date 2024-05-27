@@ -1,13 +1,17 @@
+const inputForm = document.querySelector('.inputContainer');
+console.dir(inputForm)
 const inputs = {
-  clearBtn: document.querySelector('.clear'),
-  colorPicker: document.getElementById('colorPicker'),
-  eraserBtn: document.querySelector('.erase'),
-  fillBtn: document.querySelector('.fill'),
-  incShadeBtn: document.querySelector('.incShade'),
-  decShadeBtn: document.querySelector('.decShade'),
-  rainbowBtn: document.querySelector('.rainbow'),
-  sizeSlider: document.getElementById('slider'),
+  clearBtn: inputForm.elements.clear,
+  colorPicker: inputForm.elements.colorPicker,
+  eraserBtn: inputForm.elements.erase,
+  fillBtn: inputForm.elements.fill,
+  incShadeBtn: inputForm.elements.incShade,
+  decShadeBtn: inputForm.elements.decShade,
+  rainbowBtn: inputForm.elements.rainbow,
+  sizeSlider: inputForm.elements.slider,
 }
+
+const colorDisplay = document.querySelector("#colorDisplay")
 
 const containers = {
   grid: document.querySelector('.sketchContainer'),
@@ -16,25 +20,25 @@ const containers = {
 
 const current = {
   color: inputs.colorPicker.value,
-  gridSize: inputs.sizeSlider.value,
-  mode: 'fill'
+  gridSize: inputs.sizeSlider.value
 }
 
 const eventListeners = [
-  inputs.fillBtn.addEventListener('click', () => {
-    swapModes('fill');
+  inputForm.addEventListener("submit", (e) => e.preventDefault()),
+  inputs.fillBtn.addEventListener('click', (e) => {
+    swapModes(e);
   }),
-  inputs.rainbowBtn.addEventListener('click', () => {
-    swapModes('rainbow');
+  inputs.rainbowBtn.addEventListener('click', (e) => {
+    swapModes(e);
   }),
-  inputs.incShadeBtn.addEventListener('click', () => {
-    swapModes('incShade');
+  inputs.incShadeBtn.addEventListener('click', (e) => {
+    swapModes(e);
   }),
-  inputs.decShadeBtn.addEventListener('click', () => {
-    swapModes('decShade');
+  inputs.decShadeBtn.addEventListener('click', (e) => {
+    swapModes(e);
   }),
-  inputs.eraserBtn.addEventListener('click', () => {
-    swapModes('eraser');
+  inputs.eraserBtn.addEventListener('click', (e) => {
+    swapModes(e);
   }),
   inputs.clearBtn.addEventListener('click', resetGrid),
   inputs.sizeSlider.addEventListener('click', (e) => {
@@ -45,8 +49,14 @@ const eventListeners = [
   }),
   inputs.colorPicker.addEventListener('input', (e) => {
     newColor(e.target.value);
+    updateColorDisplay();
   })
 ]
+
+function updateColorDisplay() {
+  colorDisplay.innerHTML = inputs.colorPicker.value;
+  colorDisplay.style.color = inputs.colorPicker.value;
+}
 
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
@@ -93,55 +103,116 @@ function clearGrid() {
 
 function changeColor(e) {
   if (e.type === 'mouseover' && !mouseDown) return;
-  if (current.mode === 'fill') {
+  if (inputs.fillBtn.classList.contains("button-active")) {
     e.target.style.backgroundColor = current.color;
     e.target.style.opacity = 1;
-  } else if (current.mode === 'rainbow') {
+  } else if (inputs.rainbowBtn.classList.contains("button-active")) {
     const randomColor = () => Math.floor(Math.random() * 256)
     e.target.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
     e.target.style.opacity = 1;
-  } else if (current.mode === 'incShade') {
+  } else if (inputs.incShadeBtn.classList.contains("button-active")) {
     if (e.target.style.opacity < 1) {
       e.target.style.opacity = parseFloat(e.target.style.opacity) + 0.1;
     }
-  } else if (current.mode === 'decShade') {
+  } else if (inputs.decShadeBtn.classList.contains("button-active")) {
     if (e.target.style.opacity > 0) {
       e.target.style.opacity -= 0.1;
     }
-  } else if (current.mode === 'eraser') {
+  } else if (inputs.eraserBtn.classList.contains("button-active")) {
     e.target.style.backgroundColor = 'rgba(0, 0, 0, 1)';
     e.target.style.opacity = 0.0;
   }
 }
 
-function swapModes(newMode) {
-
-  if (current.mode === 'fill') {
-    inputs.fillBtn.classList.remove('button-active');
-  } else if (current.mode === 'rainbow') {
-    inputs.rainbowBtn.classList.remove('button-active');
-  } else if (current.mode === 'incShade') {
-    inputs.incShadeBtn.classList.remove('button-active');
-  } else if (current.mode === 'decShade') {
-    inputs.decShadeBtn.classList.remove('button-active');
-  } else if (current.mode === 'eraser') {
-    inputs.eraserBtn.classList.remove('button-active');
-  }
-
-  current.mode = newMode;
-
-  if (newMode === 'fill') {
-    inputs.fillBtn.classList.add('button-active');
-  } else if (newMode === 'rainbow') {
-    inputs.rainbowBtn.classList.add('button-active');
-  } else if (newMode === 'incShade') {
-    inputs.incShadeBtn.classList.add('button-active');
-  } else if (newMode === 'decShade') {
-    inputs.decShadeBtn.classList.add('button-active');
-  } else if (newMode === 'eraser') {
-    inputs.eraserBtn.classList.add('button-active');
-  }
+function swapModes(e) {
+  if (!e.target.classList.contains("button-active")) {
+    for (const input of inputForm) {
+      input.classList.remove("button-active");
+    }
+    e.target.classList.toggle("button-active");
+}
 }
 
-swapModes(current.mode);
+updateColorDisplay();
 makeGrid(current.gridSize);
+
+class Color {
+  constructor(r, g, b, name) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.name = name;
+    this.calcHSL();
+  }
+  innerRGB() {
+    const { r, g, b } = this;
+    return `${r}, ${g}, ${b}`;
+  }
+  rgb() {
+    return `rgb(${this.innerRGB()})`;
+  }
+  rgba(a = 1.0) {
+    return `rgba(${this.innerRGB()}, ${a})`;
+  }
+  hex() {
+    const { r, g, b } = this;
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+  hsl() {
+    const { h, s, l } = this;
+    return `hsl(${h},${s}%, ${l}%)`;
+  }
+  fullSaturation() {
+    const { h, l } = this;
+    return `hsl(${h},100%, ${l}%)`;
+  }
+  opposite() {
+    const { h, s, l } = this;
+    const newHue = (h + 180) % 360
+    return `hsl(${newHue},${s}%, ${l}%)`;
+  }
+  calcHSL() {
+		let { r, g, b } = this;
+		// Make r, g, and b fractions of 1
+		r /= 255;
+		g /= 255;
+		b /= 255;
+
+		// Find greatest and smallest channel values
+		let cmin = Math.min(r, g, b),
+			cmax = Math.max(r, g, b),
+			delta = cmax - cmin,
+			h = 0,
+			s = 0,
+			l = 0;
+		if (delta == 0) h = 0;
+		else if (cmax == r)
+			// Red is max
+			h = ((g - b) / delta) % 6;
+		else if (cmax == g)
+			// Green is max
+			h = (b - r) / delta + 2;
+		else
+			// Blue is max
+			h = (r - g) / delta + 4;
+
+		h = Math.round(h * 60);
+
+		// Make negative hues positive behind 360°
+		if (h < 0) h += 360;
+		// Calculate lightness
+		l = (cmax + cmin) / 2;
+
+		// Calculate saturation
+		s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+		// Multiply l and s by 100
+		s = +(s * 100).toFixed(1);
+		l = +(l * 100).toFixed(1);
+		this.h = h;
+		this.s = s;
+		this.l = l;
+	}
+}
+
+const c1 = new Color(255, 67, 89, "tomato");

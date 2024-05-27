@@ -18,22 +18,22 @@ maximum-scale=1.0, user-scalable=no" />
         <h1>Etch-a-Sketch!</h1>
     </header>
     <div class="container">
-        <section class="inputContainer">
+        <form class="inputContainer">
+            <label id="colorDisplay" for="colorPicker"></label>
             <div class="colorContainer">
                 <input type="color" id="colorPicker" value="#333333">
             </div>
-            <button class="button fill">Fill</button>
-            <button class="button rainbow">Rainbow</button>
-            <button class="button incShade">Shade +</button>
-            <button class="button decShade">Shade -</button>
-            <button class="button erase">Eraser</button>
-            <button class="button clear">Clear Grid</button>
-            <!-- <button class="button" id="gridLines">Grid Lines</button> -->
+            <button id="fill" class="button button-active fill">Fill</button>
+            <button id="rainbow" class="button rainbow">Rainbow</button>
+            <button id="incShade" class="button incShade">Shade +</button>
+            <button id="decShade" class="button decShade">Shade -</button>
+            <button id="erase" class="button erase">Eraser</button>
+            <button id="clear" class="button clear">Clear Grid</button>
             <div class="sliderContainer">
                 <input id="slider" type="range" min="1" max="84" value="16"></input>
             </div>
             <div id="rangeOutput">16 x 16</div>
-        </section>
+        </form>
         <div class="sketchContainer"></div>
     </div>
 

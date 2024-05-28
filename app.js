@@ -1,5 +1,4 @@
 const inputForm = document.querySelector('.inputContainer');
-console.dir(inputForm)
 const inputs = {
   clearBtn: inputForm.elements.clear,
   colorPicker: inputForm.elements.colorPicker,
@@ -9,9 +8,15 @@ const inputs = {
   decShadeBtn: inputForm.elements.decShade,
   rainbowBtn: inputForm.elements.rainbow,
   sizeSlider: inputForm.elements.slider,
+  hexBox: inputForm.elements.hex,
+  rgbBox: inputForm.elements.rgb
 }
 
-const colorDisplay = document.querySelector("#colorDisplay")
+const displays = {
+  colorDisplay: document.querySelector("#colorDisplay"),
+  hexLabel: document.querySelector("#hexLabel"),
+  rgbLabel: document.querySelector("#rgbLabel")
+}
 
 const containers = {
   grid: document.querySelector('.sketchContainer'),
@@ -22,6 +27,10 @@ const current = {
   color: inputs.colorPicker.value,
   gridSize: inputs.sizeSlider.value
 }
+
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 const eventListeners = [
   inputForm.addEventListener("submit", (e) => e.preventDefault()),
@@ -50,17 +59,14 @@ const eventListeners = [
   inputs.colorPicker.addEventListener('input', (e) => {
     newColor(e.target.value);
     updateColorDisplay();
-  })
+  }),
+  inputs.hexBox.addEventListener("click", function() {
+    updateColorDisplay();
+  }),
+  inputs.rgbBox.addEventListener("click", function() {
+    updateColorDisplay();
+  }),
 ]
-
-function updateColorDisplay() {
-  colorDisplay.innerHTML = inputs.colorPicker.value;
-  colorDisplay.style.color = inputs.colorPicker.value;
-}
-
-let mouseDown = false;
-document.body.onmousedown = () => (mouseDown = true);
-document.body.onmouseup = () => (mouseDown = false);
 
 function makeGrid(size) {
   containers.grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
@@ -130,11 +136,17 @@ function swapModes(e) {
       input.classList.remove("button-active");
     }
     e.target.classList.toggle("button-active");
-}
+  }
 }
 
-updateColorDisplay();
-makeGrid(current.gridSize);
+function hex_to_RGB(hex) {
+  let m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+  return {
+    r: parseInt(m[1], 16),
+    g: parseInt(m[2], 16),
+    b: parseInt(m[3], 16)
+  };
+}
 
 class Color {
   constructor(r, g, b, name) {
@@ -172,47 +184,65 @@ class Color {
     return `hsl(${newHue},${s}%, ${l}%)`;
   }
   calcHSL() {
-		let { r, g, b } = this;
-		// Make r, g, and b fractions of 1
-		r /= 255;
-		g /= 255;
-		b /= 255;
+    let { r, g, b } = this;
+    // Make r, g, and b fractions of 1
+    r /= 255;
+    g /= 255;
+    b /= 255;
 
-		// Find greatest and smallest channel values
-		let cmin = Math.min(r, g, b),
-			cmax = Math.max(r, g, b),
-			delta = cmax - cmin,
-			h = 0,
-			s = 0,
-			l = 0;
-		if (delta == 0) h = 0;
-		else if (cmax == r)
-			// Red is max
-			h = ((g - b) / delta) % 6;
-		else if (cmax == g)
-			// Green is max
-			h = (b - r) / delta + 2;
-		else
-			// Blue is max
-			h = (r - g) / delta + 4;
+    // Find greatest and smallest channel values
+    let cmin = Math.min(r, g, b),
+      cmax = Math.max(r, g, b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+    if (delta == 0) h = 0;
+    else if (cmax == r)
+      // Red is max
+      h = ((g - b) / delta) % 6;
+    else if (cmax == g)
+      // Green is max
+      h = (b - r) / delta + 2;
+    else
+      // Blue is max
+      h = (r - g) / delta + 4;
 
-		h = Math.round(h * 60);
+    h = Math.round(h * 60);
 
-		// Make negative hues positive behind 360°
-		if (h < 0) h += 360;
-		// Calculate lightness
-		l = (cmax + cmin) / 2;
+    // Make negative hues positive behind 360°
+    if (h < 0) h += 360;
+    // Calculate lightness
+    l = (cmax + cmin) / 2;
 
-		// Calculate saturation
-		s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    // Calculate saturation
+    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
 
-		// Multiply l and s by 100
-		s = +(s * 100).toFixed(1);
-		l = +(l * 100).toFixed(1);
-		this.h = h;
-		this.s = s;
-		this.l = l;
-	}
+    // Multiply l and s by 100
+    s = +(s * 100).toFixed(1);
+    l = +(l * 100).toFixed(1);
+    this.h = h;
+    this.s = s;
+    this.l = l;
+  }
 }
 
-const c1 = new Color(255, 67, 89, "tomato");
+function convertColor() {
+  const convertedColor = hex_to_RGB(current.color);
+  return secondColor = new Color(convertedColor.r, convertedColor.g, convertedColor.b);
+}
+
+function updateColorDisplay() {
+  convertColor();
+  if(inputs.hexBox.checked) {
+  displays.colorDisplay.innerHTML = inputs.colorPicker.value;
+  } else if(inputs.rgbBox.checked) {
+    displays.colorDisplay.innerHTML = `${secondColor.rgb()}`;
+  }
+  displays.colorDisplay.style.color = inputs.colorPicker.value;
+  displays.hexLabel.style.color = inputs.colorPicker.value;
+  displays.rgbLabel.style.color = inputs.colorPicker.value;
+}
+
+updateColorDisplay();
+makeGrid(current.gridSize);

@@ -28,6 +28,7 @@ html {
     flex-wrap: wrap;
     flex-direction: column;
     width: 180px;
+    align-items: center;
 }
 
 .sketchContainer {

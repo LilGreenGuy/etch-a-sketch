@@ -9,13 +9,25 @@ const inputs = {
   rainbowBtn: inputForm.elements.rainbow,
   sizeSlider: inputForm.elements.slider,
   hexBox: inputForm.elements.hex,
-  rgbBox: inputForm.elements.rgb
+  rgbBox: inputForm.elements.rgb,
+  hslBox: inputForm.elements.hsl
+}
+
+for (let input in inputs) {
+  if (inputs[input] === inputs.eraserBtn
+    || inputs[input] === inputs.fillBtn
+    || inputs[input] === inputs.incShadeBtn
+    || inputs[input] === inputs.decShadeBtn
+    || inputs[input] === inputs.rainbowBtn) {
+    inputs[input].addEventListener('click', (e) => swapModes(e));
+  } 
 }
 
 const displays = {
   colorDisplay: document.querySelector("#colorDisplay"),
   hexLabel: document.querySelector("#hexLabel"),
-  rgbLabel: document.querySelector("#rgbLabel")
+  rgbLabel: document.querySelector("#rgbLabel"),
+  hslLabel: document.querySelector("#hslLabel")
 }
 
 const containers = {
@@ -34,21 +46,6 @@ document.body.onmouseup = () => (mouseDown = false);
 
 const eventListeners = [
   inputForm.addEventListener("submit", (e) => e.preventDefault()),
-  inputs.fillBtn.addEventListener('click', (e) => {
-    swapModes(e);
-  }),
-  inputs.rainbowBtn.addEventListener('click', (e) => {
-    swapModes(e);
-  }),
-  inputs.incShadeBtn.addEventListener('click', (e) => {
-    swapModes(e);
-  }),
-  inputs.decShadeBtn.addEventListener('click', (e) => {
-    swapModes(e);
-  }),
-  inputs.eraserBtn.addEventListener('click', (e) => {
-    swapModes(e);
-  }),
   inputs.clearBtn.addEventListener('click', resetGrid),
   inputs.sizeSlider.addEventListener('click', (e) => {
     updateSizeDisplay(e.target.value);
@@ -66,6 +63,9 @@ const eventListeners = [
   inputs.rgbBox.addEventListener("click", function() {
     updateColorDisplay();
   }),
+  inputs.hslBox.addEventListener("click", function() {
+    updateColorDisplay();
+  })
 ]
 
 function makeGrid(size) {
@@ -238,10 +238,13 @@ function updateColorDisplay() {
   displays.colorDisplay.innerHTML = inputs.colorPicker.value;
   } else if(inputs.rgbBox.checked) {
     displays.colorDisplay.innerHTML = `${secondColor.rgb()}`;
+  } else if(inputs.hslBox.checked) {
+    displays.colorDisplay.innerHTML = `${secondColor.hsl()}`;
   }
   displays.colorDisplay.style.color = inputs.colorPicker.value;
   displays.hexLabel.style.color = inputs.colorPicker.value;
   displays.rgbLabel.style.color = inputs.colorPicker.value;
+  displays.hslLabel.style.color = inputs.colorPicker.value;
 }
 
 updateColorDisplay();

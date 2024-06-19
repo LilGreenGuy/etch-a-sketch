@@ -21,15 +21,25 @@ maximum-scale=1.0, user-scalable=no" />
         <form class="inputContainer">
             <label id="colorDisplay" for="colorPicker"></label>
             <div>
-                <input type="radio" id="hex" name="color" value="" checked="true">
+                <input type="radio" id="hex" name="color" checked="true">
                 <label id="hexLabel" for="hex">HEX Code</label>
             </div>
             <div>
-                <input type="radio" id="rgb" name="color" value="">
+                <input type="radio" id="rgb" name="color">
                 <label id="rgbLabel" for="rgb">RGB Code</label>
             </div>
-            <div class="colorContainer">
-                <input type="color" id="colorPicker" value="#333333">
+            <div>
+                <input type="radio" id="hsl" name="color">
+                <label id="hslLabel" for="hsl">HSL Code</label>
+            </div>
+            <div id="group">
+                <div class="colorContainer">
+                    <input type="color" id="colorPicker" value="#333333">
+                </div>
+                <div class="sliderContainer">
+                    <input id="slider" type="range" min="1" max="84" value="16"></input>
+                </div>
+                <div id="rangeOutput">16 x 16</div>
             </div>
             <button id="fill" class="button button-active fill">Fill</button>
             <button id="rainbow" class="button rainbow">Rainbow</button>
@@ -37,10 +47,6 @@ maximum-scale=1.0, user-scalable=no" />
             <button id="decShade" class="button decShade">Shade -</button>
             <button id="erase" class="button erase">Eraser</button>
             <button id="clear" class="button clear">Clear Grid</button>
-            <div class="sliderContainer">
-                <input id="slider" type="range" min="1" max="84" value="16"></input>
-            </div>
-            <div id="rangeOutput">16 x 16</div>
         </form>
         <div class="sketchContainer"></div>
     </div>

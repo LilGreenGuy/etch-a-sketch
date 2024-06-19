@@ -7,11 +7,15 @@ html {
     font-family: 'Roboto', sans-serif;
 }
 
+body {
+
+    background: linear-gradient(180deg, rgb(200, 200, 200), rgb(235, 235, 235)) fixed;
+}
+
 .header {
     border-bottom: 1px solid black;
-    padding: .5rem;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 50px;
 }
 
@@ -27,7 +31,7 @@ html {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    width: 180px;
+    width: 12rem;
     align-items: center;
 }
 
@@ -63,7 +67,7 @@ html {
 }
 
 #colorDisplay {
-    font-size: 2rem;
+    font-size: 1.35rem;
 }
 
 .button,
@@ -81,6 +85,14 @@ html {
 #colorPicker {
     height: 100%;
     border-radius: 5px;
+    width: 12rem;
+}
+
+#group {
+    display: grid;
+    margin: 1rem 0;
+
+    grid-template-columns: 2fr 2fr 2fr 2fr;
 }
 
 .grid {

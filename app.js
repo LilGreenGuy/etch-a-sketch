@@ -1,17 +1,17 @@
-const inputForm = document.querySelector('.inputContainer');
+
 const inputs = {
-  clearBtn: inputForm.elements.clear,
-  colorPicker: inputForm.elements.colorPicker,
-  eraserBtn: inputForm.elements.erase,
-  fillBtn: inputForm.elements.fill,
-  incShadeBtn: inputForm.elements.incShade,
-  decShadeBtn: inputForm.elements.decShade,
-  rainbowBtn: inputForm.elements.rainbow,
-  sizeSlider: inputForm.elements.slider,
-  hexBox: inputForm.elements.hex,
-  rgbBox: inputForm.elements.rgb,
-  hslBox: inputForm.elements.hsl
-}
+  clearBtn: document.querySelector('#clear'),
+  colorPicker: document.querySelector('#colorPicker'),
+  eraserBtn: document.querySelector('#erase'),
+  fillBtn: document.querySelector('#fill'),
+  incShadeBtn: document.querySelector('#incShade'),
+  decShadeBtn: document.querySelector('#decShade'),
+  rainbowBtn: document.querySelector('#rainbow'),
+  sizeSlider: document.querySelector('#slider'),
+  hexBox: document.querySelector('#hex'),
+  rgbBox: document.querySelector('#rgb'),
+  hslBox: document.querySelector('#hsl')
+};
 
 for (let input in inputs) {
   if (inputs[input] === inputs.eraserBtn
@@ -21,31 +21,30 @@ for (let input in inputs) {
     || inputs[input] === inputs.rainbowBtn) {
     inputs[input].addEventListener('click', (e) => swapModes(e));
   } 
-}
+};
 
 const displays = {
   colorDisplay: document.querySelector("#colorDisplay"),
   hexLabel: document.querySelector("#hexLabel"),
   rgbLabel: document.querySelector("#rgbLabel"),
   hslLabel: document.querySelector("#hslLabel")
-}
+};
 
 const containers = {
   grid: document.querySelector('.sketchContainer'),
   sizeDisplay: document.getElementById('rangeOutput')
-}
+};
 
 const current = {
   color: inputs.colorPicker.value,
   gridSize: inputs.sizeSlider.value
-}
+};
 
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
 
 const eventListeners = [
-  inputForm.addEventListener("submit", (e) => e.preventDefault()),
   inputs.clearBtn.addEventListener('click', resetGrid),
   inputs.sizeSlider.addEventListener('click', (e) => {
     updateSizeDisplay(e.target.value);
@@ -66,7 +65,7 @@ const eventListeners = [
   inputs.hslBox.addEventListener("click", function() {
     updateColorDisplay();
   })
-]
+];
 
 function makeGrid(size) {
   containers.grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
@@ -81,31 +80,31 @@ function makeGrid(size) {
     containers.grid.appendChild(gridBox);
     gridBox.style.opacity = 0.0;
   }
-}
+};
 
 function resetGrid() {
   clearGrid();
   makeGrid(current.gridSize);
-}
+};
 
 function newColor(newColor) {
   current.color = newColor;
-}
+};
 
 function changeSize(newSize) {
   current.gridSize = newSize;
   updateSizeDisplay(newSize);
   clearGrid();
   makeGrid(current.gridSize);
-}
+};
 
 function updateSizeDisplay(gridSize) {
   containers.sizeDisplay.innerHTML = `${gridSize} x ${gridSize}`;
-}
+};
 
 function clearGrid() {
   containers.grid.innerHTML = '';
-}
+};
 
 function changeColor(e) {
   if (e.type === 'mouseover' && !mouseDown) return;
@@ -128,16 +127,16 @@ function changeColor(e) {
     e.target.style.backgroundColor = 'rgba(0, 0, 0, 1)';
     e.target.style.opacity = 0.0;
   }
-}
+};
 
 function swapModes(e) {
   if (!e.target.classList.contains("button-active")) {
-    for (const input of inputForm) {
-      input.classList.remove("button-active");
+    for (const input in inputs) {
+      inputs[input].classList.remove("button-active");
     }
     e.target.classList.toggle("button-active");
   }
-}
+};
 
 function hex_to_RGB(hex) {
   let m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
@@ -146,7 +145,7 @@ function hex_to_RGB(hex) {
     g: parseInt(m[2], 16),
     b: parseInt(m[3], 16)
   };
-}
+};
 
 class Color {
   constructor(r, g, b, name) {
